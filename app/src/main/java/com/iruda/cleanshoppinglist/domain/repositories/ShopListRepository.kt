@@ -1,5 +1,6 @@
 package com.iruda.cleanshoppinglist.domain.repositories
 
+import androidx.lifecycle.LiveData
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 
 interface ShopListRepository {
@@ -10,7 +11,7 @@ interface ShopListRepository {
 
     fun deleteShopItem(shopItem: ShopItem)
 
-    fun getShopList(): List<ShopItem>
+    fun getShopList(): LiveData<List<ShopItem>>
 
     fun getShopItem(shopItemId: Int): ShopItem
 }
