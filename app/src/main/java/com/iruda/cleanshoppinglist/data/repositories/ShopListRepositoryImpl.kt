@@ -1,10 +1,13 @@
 package com.iruda.cleanshoppinglist.data.repositories
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 import com.iruda.cleanshoppinglist.domain.repositories.ShopListRepository
 
 object ShopListRepositoryImpl : ShopListRepository {
 
+    private val shopListLD = MutableLiveData<List<ShopItem>>()
     private val shopList = mutableListOf<ShopItem>()
 
     private var autoIncrementId = 0
@@ -21,6 +24,7 @@ object ShopListRepositoryImpl : ShopListRepository {
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
+        updateList()
     }
 
     override fun updateShopItem(shopItem: ShopItem) {
@@ -31,14 +35,19 @@ object ShopListRepositoryImpl : ShopListRepository {
 
     override fun deleteShopItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
+        updateList()
     }
 
-    override fun getShopList(): List<ShopItem> {
-        return shopList.toList()
+    override fun getShopList(): LiveData<List<ShopItem>> {
+        return shopListLD
     }
 
     override fun getShopItem(shopItemId: Int): ShopItem {
         return shopList.find { it.id == shopItemId }
             ?: throw RuntimeException("Element with id $shopItemId not found")
+    }
+
+    private fun updateList() {
+        shopListLD.postValue(shopList.toList())
     }
 }
