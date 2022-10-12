@@ -1,9 +1,11 @@
 package com.iruda.cleanshoppinglist.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.iruda.cleanshoppinglist.R
 import com.iruda.cleanshoppinglist.presentation.adapters.ShopListAdapter
 import com.iruda.cleanshoppinglist.presentation.viewmodels.MainViewModel
@@ -40,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         }
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnabledStateShopItem(it)
+        }
+
+        shopListAdapter.onShopItemClickListener = {
+            Log.d("MainActivity", "ItemClick")
         }
     }
 
