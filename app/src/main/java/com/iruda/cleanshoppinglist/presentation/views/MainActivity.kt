@@ -1,11 +1,11 @@
 package com.iruda.cleanshoppinglist.presentation.views
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.iruda.cleanshoppinglist.R
 import com.iruda.cleanshoppinglist.presentation.adapters.ShopListAdapter
 import com.iruda.cleanshoppinglist.presentation.viewmodels.MainViewModel
@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this@MainActivity) {
             shopListAdapter.submitList(it)
+        }
+        val fabAddItem = findViewById<FloatingActionButton>(R.id.fab_add_shop_item)
+        fabAddItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -70,7 +75,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            Log.d("MainActivity", "ItemClick")
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
