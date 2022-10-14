@@ -23,7 +23,7 @@
             android:id="@+id/edit_text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name:"
+            android:hint="@string/activity_shop_item_name"
             android:inputType="textCapWords" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -44,7 +44,7 @@
             android:id="@+id/edit_text_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Count:"
+            android:hint="@string/activity_shop_item_count"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -53,7 +53,7 @@
         android:id="@+id/button_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/activity_shop_item_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
