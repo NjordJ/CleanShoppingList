@@ -1,4 +1,4 @@
-package com.iruda.cleanshoppinglist.presentation
+package com.iruda.cleanshoppinglist.presentation.views
 
 import android.os.Bundle
 import android.util.Log
