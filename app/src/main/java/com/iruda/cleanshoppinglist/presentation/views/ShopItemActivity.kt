@@ -17,7 +17,7 @@ import com.iruda.cleanshoppinglist.presentation.viewmodels.ShopItemViewModel
 
 class ShopItemActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ShopItemViewModel
+    /*private lateinit var viewModel: ShopItemViewModel
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -26,20 +26,20 @@ class ShopItemActivity : AppCompatActivity() {
     private lateinit var buttonSave: Button
 
     private var screenMode = MODE_UNKNOWN
-    private var shopItemId = ShopItem.UNDEFINED_ID
+    private var shopItemId = ShopItem.UNDEFINED_ID*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
-        parseIntent()
+        /*parseIntent()
         viewModel = ViewModelProvider(this@ShopItemActivity)[ShopItemViewModel::class.java]
         initViews()
         addTextChangedListeners()
         launchCorrectMode()
-        observeViewModel()
+        observeViewModel()*/
     }
 
-    private fun launchEditMode() {
+    /*private fun launchEditMode() {
         viewModel.getShopItem(shopItemId)
         viewModel.shopItem.observe(this@ShopItemActivity) {
             etName.setText(it.name)
@@ -141,7 +141,7 @@ class ShopItemActivity : AppCompatActivity() {
         etName = findViewById(R.id.edit_text_name)
         etCount = findViewById(R.id.edit_text_count)
         buttonSave = findViewById(R.id.button_save)
-    }
+    }*/
 
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
