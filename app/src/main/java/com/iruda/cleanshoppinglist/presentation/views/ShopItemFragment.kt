@@ -1,5 +1,6 @@
 package com.iruda.cleanshoppinglist.presentation.views
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,6 +20,7 @@ import com.iruda.cleanshoppinglist.presentation.viewmodels.ShopItemViewModel
 class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -28,6 +30,15 @@ class ShopItemFragment : Fragment() {
 
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -126,7 +137,7 @@ class ShopItemFragment : Fragment() {
             tilName.error = message
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
         }
     }
 
@@ -154,6 +165,11 @@ class ShopItemFragment : Fragment() {
         etName = view.findViewById(R.id.edit_text_name)
         etCount = view.findViewById(R.id.edit_text_count)
         buttonSave = view.findViewById(R.id.button_save)
+    }
+
+    interface OnEditingFinishedListener {
+
+        fun onEditingFinished()
     }
 
     companion object {

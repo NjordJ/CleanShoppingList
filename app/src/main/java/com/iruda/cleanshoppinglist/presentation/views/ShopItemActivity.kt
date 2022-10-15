@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.iruda.cleanshoppinglist.R
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
@@ -19,6 +19,10 @@ class ShopItemActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             launchCorrectMode()
         }
+    }
+
+    override fun onEditingFinished() {
+        finish()
     }
 
     private fun launchCorrectMode() {
