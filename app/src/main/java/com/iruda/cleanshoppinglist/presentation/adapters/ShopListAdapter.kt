@@ -2,9 +2,12 @@ package com.iruda.cleanshoppinglist.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.iruda.cleanshoppinglist.R
 import com.iruda.cleanshoppinglist.databinding.ItemShopDisabledBinding
+import com.iruda.cleanshoppinglist.databinding.ItemShopEnabledBinding
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 
 class ShopListAdapter :
@@ -22,18 +25,29 @@ class ShopListAdapter :
             VIEW_TYPE_NON_ACTIVE -> R.layout.item_shop_disabled
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-//        val view = LayoutInflater.from(parent.context)
-//            .inflate(layout, parent, false)
         val binding =
-            ItemShopDisabledBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(parent.context),
+                layout,
+                parent,
+                false
+            )
         return ShopItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val item = getItem(position)
         val binding = holder.binding
-        binding.textViewName.text = item.name
-        binding.textViewCount.text = item.count.toString()
+        when (binding) {
+            is ItemShopDisabledBinding -> {
+                binding.textViewName.text = item.name
+                binding.textViewCount.text = item.count.toString()
+            }
+            is ItemShopEnabledBinding -> {
+                binding.textViewName.text = item.name
+                binding.textViewCount.text = item.count.toString()
+            }
+        }
         binding.root.setOnLongClickListener {
             onShopItemLongClickListener?.invoke(item)
             true
