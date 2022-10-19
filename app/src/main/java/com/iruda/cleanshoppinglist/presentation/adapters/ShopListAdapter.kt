@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.iruda.cleanshoppinglist.R
+import com.iruda.cleanshoppinglist.databinding.ItemShopDisabledBinding
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 
 class ShopListAdapter :
@@ -21,20 +22,23 @@ class ShopListAdapter :
             VIEW_TYPE_NON_ACTIVE -> R.layout.item_shop_disabled
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val view = LayoutInflater.from(parent.context)
-            .inflate(layout, parent, false)
-        return ShopItemViewHolder(view)
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(layout, parent, false)
+        val binding =
+            ItemShopDisabledBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ShopItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val item = getItem(position)
-        holder.textViewName.text = item.name
-        holder.textViewCount.text = item.count.toString()
-        holder.itemView.setOnLongClickListener {
+        val binding = holder.binding
+        binding.textViewName.text = item.name
+        binding.textViewCount.text = item.count.toString()
+        binding.root.setOnLongClickListener {
             onShopItemLongClickListener?.invoke(item)
             true
         }
-        holder.itemView.setOnClickListener {
+        binding.root.setOnClickListener {
             onShopItemClickListener?.invoke(item)
         }
     }
