@@ -40,12 +40,10 @@ class ShopListAdapter :
         val binding = holder.binding
         when (binding) {
             is ItemShopDisabledBinding -> {
-                binding.textViewName.text = item.name
-                binding.textViewCount.text = item.count.toString()
+                binding.shopItem = item
             }
             is ItemShopEnabledBinding -> {
-                binding.textViewName.text = item.name
-                binding.textViewCount.text = item.count.toString()
+                binding.shopItem = item
             }
         }
         binding.root.setOnLongClickListener {
