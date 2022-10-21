@@ -5,7 +5,7 @@ import com.iruda.cleanshoppinglist.domain.repositories.ShopListRepository
 
 class AddShopUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun addShopItem(shopItem: ShopItem) {
+    suspend fun addShopItem(shopItem: ShopItem) {
         shopListRepository.addShopItem(shopItem)
     }
 }
