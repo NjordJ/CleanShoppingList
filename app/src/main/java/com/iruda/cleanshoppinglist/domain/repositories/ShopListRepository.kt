@@ -5,13 +5,13 @@ import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 
 interface ShopListRepository {
 
-    fun addShopItem(shopItem: ShopItem)
+    suspend fun addShopItem(shopItem: ShopItem)
 
-    fun updateShopItem(shopItem: ShopItem)
+    suspend fun updateShopItem(shopItem: ShopItem)
 
-    fun deleteShopItem(shopItem: ShopItem)
+    suspend fun deleteShopItem(shopItem: ShopItem)
 
     fun getShopList(): LiveData<List<ShopItem>>
 
-    fun getShopItem(shopItemId: Int): ShopItem
+    suspend fun getShopItem(shopItemId: Int): ShopItem
 }

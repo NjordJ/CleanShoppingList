@@ -1,15 +1,18 @@
 package com.iruda.cleanshoppinglist.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.iruda.cleanshoppinglist.data.repositories.ShopListRepositoryImpl
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 import com.iruda.cleanshoppinglist.domain.usecases.DeleteShopUseCase
 import com.iruda.cleanshoppinglist.domain.usecases.GetShopListUseCase
 import com.iruda.cleanshoppinglist.domain.usecases.UpdateShopUseCase
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = ShopListRepositoryImpl
+    private val repository = ShopListRepositoryImpl(application)
 
     private val getShopListUseCase = GetShopListUseCase(repository)
     private val deleteShopUseCase = DeleteShopUseCase(repository)
@@ -18,12 +21,15 @@ class MainViewModel : ViewModel() {
     val shopList = getShopListUseCase.getShopList()
 
     fun deleteShopItem(shopItem: ShopItem) {
-        deleteShopUseCase.deleteShopItem(shopItem)
+        viewModelScope.launch {
+            deleteShopUseCase.deleteShopItem(shopItem)
+        }
     }
 
     fun changeEnabledStateShopItem(shopItem: ShopItem) {
-        val newItem = shopItem.copy(isActive = !shopItem.isActive)
-        updateShopUseCase.updateShopItem(newItem)
+        viewModelScope.launch {
+            val newItem = shopItem.copy(isActive = !shopItem.isActive)
+            updateShopUseCase.updateShopItem(newItem)
+        }
     }
-
 }
