@@ -4,14 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.iruda.cleanshoppinglist.data.repositories.ShopListRepositoryImpl
 import com.iruda.cleanshoppinglist.domain.entities.ShopItem
 import com.iruda.cleanshoppinglist.domain.usecases.AddShopUseCase
 import com.iruda.cleanshoppinglist.domain.usecases.GetShopItemUseCase
 import com.iruda.cleanshoppinglist.domain.usecases.UpdateShopUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
@@ -21,8 +19,6 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     private val getShopItemUseCase = GetShopItemUseCase(repository)
     private val addShopUseCase = AddShopUseCase(repository)
     private val updateShopUseCase = UpdateShopUseCase(repository)
-
-    private val scope = CoroutineScope(Dispatchers.IO)
 
     // Set values private and allow access from view only with getter
     private val _errorInputName = MutableLiveData<Boolean>()
@@ -42,7 +38,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         get() = _shouldCloseScreen
 
     fun getShopItem(shopItemId: Int) {
-        scope.launch {
+        viewModelScope.launch {
             val item = getShopItemUseCase.getShopItem(shopItemId)
             _shopItem.postValue(item)
         }
@@ -53,7 +49,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         val count = parseCount(inputCount)
         val fieldsValid = validateInputs(name, count)
         if (fieldsValid) {
-            scope.launch {
+            viewModelScope.launch {
                 val shopItem = ShopItem(name, count, true)
                 addShopUseCase.addShopItem(shopItem)
             }
@@ -67,7 +63,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         val fieldsValid = validateInputs(name, count)
         if (fieldsValid) {
             _shopItem.value?.let {
-                scope.launch {
+                viewModelScope.launch {
                     val item = it.copy(name = name, count = count)
                     updateShopUseCase.updateShopItem(item)
                 }
@@ -105,11 +101,6 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
 
     private fun finishWork() {
         _shouldCloseScreen.postValue(Unit)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
     }
 
 }
